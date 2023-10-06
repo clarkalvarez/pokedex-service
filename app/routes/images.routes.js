@@ -17,7 +17,7 @@ module.exports = app => {
 
 
       const filename = req.body.filename;
-      const filePath = path.join(__dirname, 'images', filename);
+      const filePath = path.join(__dirname, '../../images', filename);
       var base64Data = base64Image.replace(/^data:image\/([a-zA-Z]+);base64,/, "");
 
 

@@ -1,3 +1,5 @@
+const deleteImage = require("../helpers/deleteImage");
+const padWithZeros = require("../helpers/padWithZeros");
 const db = require("../models");
 const Pokemon = db.Pokemon;
 
@@ -110,7 +112,7 @@ exports.create = async (req, res) => {
 
 
   try {
-    const result = await pokemon.save()
+    await pokemon.save()
     res.status(200).json(pokemon)
   } catch (error) {
     console.log("error", error)
@@ -118,6 +120,23 @@ exports.create = async (req, res) => {
   }
 };
 
+exports.delete = async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const pokemon = await Pokemon.findOneAndRemove({ id: id });
+
+    if (pokemon) {
+      res.status(200).json(pokemon);
+      const filename = `${padWithZeros(id, 3)}.png`
+      deleteImage(filename)
+
+    } else {
+      res.status(404).json(`Cannot delete Pokemon with id=${id}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
 async function getMaxId() {
