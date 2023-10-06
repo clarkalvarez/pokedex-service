@@ -5,7 +5,11 @@ module.exports = app => {
 
   router.get("/", pokemon.findAll);
 
+  router.get("/maxId", pokemon.findMaxId);
+
   router.get("/:id", pokemon.findOne);
+
+  router.post("/", pokemon.create);
 
   app.use('/api/pokemon', router);
 };

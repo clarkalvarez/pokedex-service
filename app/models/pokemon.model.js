@@ -13,12 +13,15 @@ module.exports = mongoose => {
         HP: Number,
         Attack: Number,
         Defense: Number,
-        "Sp. Attack": Number,
-        "Sp. Defense": Number,
+        'Sp. Attack': Number,
+        'Sp. Defense': Number,
+        SpAttack: Number,
+        SpDefense: Number,
         Speed: Number,
       }
     },
-    { timestamps: true }
+    { timestamps: true },
+    { strict: false }
   );
 
   schema.method("toJSON", function () {
