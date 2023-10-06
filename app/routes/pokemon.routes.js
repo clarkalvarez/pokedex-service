@@ -11,6 +11,8 @@ module.exports = app => {
 
   router.post("/", pokemon.create);
 
+  router.put("/:id", pokemon.update);
+
   router.delete("/:id", pokemon.delete);
 
   app.use('/api/pokemon', router);

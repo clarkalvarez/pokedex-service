@@ -138,6 +138,60 @@ exports.delete = async (req, res) => {
   }
 };
 
+exports.update = async (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Data to update can not be empty!"
+    });
+  }
+
+  try {
+    const id = Number(req.params.id);
+
+
+    const selectedTypeOne = req.body.selectedTypeOne;
+    const selectedTypeTwo = req.body.selectedTypeTwo;
+
+    const type = [selectedTypeOne];
+
+    if (selectedTypeTwo) {
+      type.push(selectedTypeTwo);
+    }
+
+    const pokemonData = {
+      name: {
+        english: req.body.englishName,
+        japanese: req.body?.japaneseName ?? null,
+        chinese: req.body?.chineseName ?? null,
+        french: req.body?.frenchName ?? null,
+      },
+      type: type,
+      base: {
+        HP: req.body.hp,
+        Attack: req.body.attack,
+        Defense: req.body.defense,
+        SpAttack: req.body.spAttack,
+        SpDefense: req.body.spDefense,
+        Speed: req.body.speed,
+      }
+    };
+
+    const updatedPokemon = await Pokemon.findOneAndUpdate(
+      { id: id },
+      pokemonData,
+    );
+    if (updatedPokemon) {
+      res.status(200).json(updatedPokemon);
+    } else {
+      res.status(404).json(`Cannot update Pokemon with id=${id}`);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
 
 async function getMaxId() {
   try {
